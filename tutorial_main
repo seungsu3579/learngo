@@ -1,0 +1,166 @@
+package tutorial
+
+import (
+	"fmt"
+	"strings"
+)
+
+// @@ Variables and Constants
+func variable_main() {
+	const name string = "seungsu"
+
+	var name2 string = "yerim"
+	// name2 := "yerim"   // func 밖에서는 동작하지 않음, type 미설정시 go에서 자동으로 type 추정
+	// name2 = true
+	fmt.Print(name2)
+
+}
+
+// @@ Functions part 1
+func func1_main() {
+	fmt.Println(multiply(2, 2))
+
+	totalLenght, upperName := lenAndUpper("seungsu")
+	totalLenght2, _ := lenAndUpper("yerim") // _ 변수로 값을 받으면 ignore 된다.
+	fmt.Println(totalLenght, upperName)
+	fmt.Println(totalLenght2)
+
+	test := repeatMe("luca", "bt", "kai", "pedro", "dal", "time")
+	print(test)
+}
+func multiply(a int, b int) int {
+	// func multiply(a, b int) int {
+	// 함수의 리턴 값 타입은 항상 명시되어야한다. 명시되지 않으면 return 불가
+	return a * b
+}
+func lenAndUpper(name string) (int, string) {
+	return len(name), strings.ToUpper(name)
+}
+func repeatMe(words ...string) string {
+	fmt.Println(words) // ...string 으로 string 인자를 여러개 받을 수 있다.
+	return words[1]
+}
+
+// @@ Functions part 2
+func func2_main() {
+	totalLength, _ := lenAndUpper_naked("seungsu")
+	fmt.Println(totalLength)
+}
+func lenAndUpper_naked(name string) (length int, uppercase string) {
+	defer fmt.Println("I'm done! - post") // defer 구문으로 해당 함수가 끝난뒤 호출 할 수 있다.ㄴ
+	length = len(name)
+	uppercase = strings.ToUpper(name)
+	fmt.Println("defer test - prev")
+	return // func return 변수를 사전에 정의 할수도 있다.
+}
+
+// @@ loop
+func loop_main() {
+	total := superAdd(1, 2, 3, 4, 5, 6)
+	println("Total : ", total)
+}
+func superAdd(numbers ...int) int {
+	total := 0
+	for index, number := range numbers {
+		// range는 index를 준다.
+		fmt.Println(index, " : ", number)
+	}
+
+	for i := 0; i < len(numbers); i++ {
+		total += numbers[i]
+	}
+	return total
+}
+
+// @@ condition
+func condition_main() {
+	fmt.Println(canIDrink(16))
+}
+func canIDrink(age int) bool {
+
+	switch age {
+	case 10:
+		return false
+	case 18:
+		return true
+	}
+
+	switch {
+	case age < 18:
+		return false
+	case age == 18:
+		return true
+	case age > 18:
+		return true
+	}
+
+	if age < 18 {
+		return false
+	}
+	return true
+
+	// if else 조건문에서만 사용하기 위해 variable을 생성할 수 있다.
+	// switch 문에서도 variable expression이 가능
+	/*
+		if koreanAge := age + 2; koreanAge < 18 {
+			return false
+		}
+	*/
+}
+
+// @@ pointers
+func pointer_main() {
+	a := 2
+	b := &a
+	fmt.Println(a, b)
+	fmt.Println(b, &b)
+
+	c := "test"
+	d := &c
+	c = "new_value"
+	fmt.Println(c, d)
+	fmt.Println(&c, &d)
+}
+
+// @@ Arrays and Slices
+func array_main() {
+	names := [5]string{"nico", "dal", "luca"}
+	names[3] = "pedro"
+	names[4] = "bt"
+	// names[5] = "kai"
+
+	// slice
+	kakao_se := []string{"pedro", "bt", "luca", "kai"}
+	kakao_se = append(kakao_se, "steve") // append()은 slice, value를 받아 새로운 slice를 리턴
+	fmt.Println(kakao_se)
+}
+
+// @@ Maps
+func maps_func() {
+	luca := map[string]string{"name": "luca", "age": "27"} // map[key]value 형태로 정의
+	for key, value := range luca {
+		fmt.Println(key, value)
+	}
+	fmt.Println(luca)
+}
+
+// @@ Structs
+
+type person struct {
+	name    string
+	age     int
+	favFood []string
+	asset   map[string]int
+}
+
+func struct_main() {
+	favfood := []string{"ramen", "pizza", "hambuger"}
+	luca_asset := map[string]int{"cash": 100, "car": 1}
+	luca := person{name: "luca", age: 27, favFood: favfood, asset: luca_asset}
+	fmt.Println(luca)
+
+}
+
+// func main() {
+// 	maps_func()
+// }
